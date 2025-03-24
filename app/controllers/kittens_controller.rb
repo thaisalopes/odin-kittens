@@ -8,6 +8,7 @@ class KittensController < ApplicationController
 
   # GET /kittens/1 or /kittens/1.json
   def show
+    @kitten = Kitten.find(params[:id])
   end
 
   # GET /kittens/new
@@ -17,7 +18,9 @@ class KittensController < ApplicationController
 
   # GET /kittens/1/edit
   def edit
-  end
+    @kitten = Kitten.find(params[:id])
+    render :edit
+end
 
   # POST /kittens or /kittens.json
   def create
@@ -36,25 +39,16 @@ class KittensController < ApplicationController
 
   # PATCH/PUT /kittens/1 or /kittens/1.json
   def update
-    respond_to do |format|
-      if @kitten.update(kitten_params)
-        format.html { redirect_to @kitten, notice: "Kitten was successfully updated." }
-        format.json { render :show, status: :ok, location: @kitten }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @kitten.errors, status: :unprocessable_entity }
-      end
-    end
+    @kitten = Kitten.find(params[:id])
+    @kitten.update(kitten_params)
+    redirect_to kittens_path(@kitten)
   end
 
   # DELETE /kittens/1 or /kittens/1.json
   def destroy
-    @kitten.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to kittens_path, status: :see_other, notice: "Kitten was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @kitten = Kitten.find(params[:id])
+    @kitten.destroy
+    redirect_to kittens_path
   end
 
   private

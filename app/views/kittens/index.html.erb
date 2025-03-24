@@ -2,13 +2,16 @@
 
 <h1>Kittens</h1>
 
-<div id="kittens">
-  <% @kittens.each do |kitten| %>
-    <%= render kitten %>
-    <p>
-      <%= link_to "Show this kitten", kitten %>
-    </p>
+<ul>
+  <% @kittens.each do |k|%>
+    <li>
+    <%= link_to k.name, k %><br>
+    <%= link_to "Delete", kitten_path(k), data: {
+      turbo_method: :delete,
+      turbo_confirm: 'Are you sure?'
+      } %>
+    </li><br>
   <% end %>
-</div>
+</ul>
 
 <%= link_to "New kitten", new_kitten_path %>
